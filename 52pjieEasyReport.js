@@ -14,7 +14,6 @@
     var btnLogout = getNodeByXpath("//*[@id=\"um\"]/p[1]/a[6]");
     var reportUrl = "https://www.52pojie.cn/forum.php?mod=post&action=newthread&fid=15";
     if (window.location.href != reportUrl) {
-
         if (btnLogin == null && btnLogout != null) {
             var webHtmls = document.getElementById("postlist").getElementsByTagName("div")[2].getElementsByClassName("plhin res-postfirst")[0];
             if (webHtmls != null) {
@@ -28,7 +27,7 @@
                 }
                 var author = getNodeByXpath("//*[@id=\"favatar" + pid.replace("pid", "") + "\"]/div[1]/div/a");
                 var createTime = getNodeByXpath("//*[@id=\"authorposton" + pid.replace("pid", "") + "\"]");
-                var postsInfo = { Author: author.innerHTML, CreateTime:createTime.innerText.trim().replace("发表于","") };
+                var postsInfo = { Author: author.innerHTML, CreateTime:createTime.innerText.replace("发表于","").trim()};
                 GM_setValue('info', postsInfo);
             }
         }
