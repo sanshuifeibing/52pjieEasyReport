@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         吾爱破解论坛快捷举报
 // @namespace    https://www.sanshuifeibing.com/
-// @version      0.2
-// @description  吾爱破解论坛快捷举报
+// @version      0.2.1
+// @description  对违法乱纪的帖子进行快捷举报，营造良好的技术学习氛围。
 // @author       三水非冰
 // @match        https://www.52pojie.cn/*
 // @grant        GM_setValue
@@ -24,7 +24,9 @@
             let pid = $("#postlist div").eq(2).attr("id").replace("post_", "");
             let x = $("#pid" + pid).find("p:contains('举报')");
             let btnReportHtml = "<a href=\"javascript:;\" style=\"color:red;\" id=\"btnReport\">高级举报</a>";
-            x.append(btnReportHtml);
+            if ($("a.xw1").eq(0).text().trim() != userName) {
+                x.append(btnReportHtml);
+            }
             if (/收起/.test($("#ratelog_" + pid).find("th").text())) {
                 $("#ratelog_" + pid).find("th:contains('收起')").children("a").click();
             }
@@ -53,7 +55,6 @@
         console.log("论坛账号：" + GM_getValue('info').Author);
         console.log("事件发生时间：" + GM_getValue('info').CreateTime);
     }
-
     $("#btnReport").click(function () {
         window.location.href = reportUrl;
     });
@@ -84,7 +85,6 @@
                 let txt = $(data).find("#threadlisttableid").find("th:contains('" + userName + "')").html();
                 let reg = /(?<=tid=).*?(?=&)/;
                 url = "https://www.52pojie.cn/forum.php?mod=viewthread&tid=" + reg.exec(txt);
-                //url= "https://www.52pojie.cn/forum.php?mod=post&action=reply&fid=15&tid="+reg.exec(txt);
             }
         });
         return url;
